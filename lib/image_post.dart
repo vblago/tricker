@@ -12,6 +12,8 @@ class ImagePost extends StatefulWidget {
       {this.mediaUrl,
       this.username,
       this.location,
+      this.lat,
+      this.lng,
       this.description,
       this.likes,
       this.postId,
@@ -21,6 +23,8 @@ class ImagePost extends StatefulWidget {
     return ImagePost(
       username: document['username'],
       location: document['location'],
+      lat: document['lat'],
+      lng: document['lng'],
       mediaUrl: document['mediaUrl'],
       likes: document['likes'],
       description: document['description'],
@@ -33,6 +37,8 @@ class ImagePost extends StatefulWidget {
     return ImagePost(
       username: data['username'],
       location: data['location'],
+      lat: data['lat'],
+      lng: data['lng'],
       mediaUrl: data['mediaUrl'],
       likes: data['likes'],
       description: data['description'],
@@ -60,6 +66,8 @@ class ImagePost extends StatefulWidget {
   final String mediaUrl;
   final String username;
   final String location;
+  final double lat;
+  final double lng;
   final String description;
   final likes;
   final String postId;
@@ -188,7 +196,7 @@ class _ImagePost extends State<ImagePost> {
                 openProfile(context, ownerId);
               },
             ),
-            subtitle: Text(this.location),
+            subtitle: Text(this.location!= null?this.location:""),
             trailing: const Icon(Icons.more_vert),
           );
         });

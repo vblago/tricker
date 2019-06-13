@@ -5,23 +5,44 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tricker/image_post.dart';
 
 class MapPage extends StatefulWidget {
+  String profileId;
+
+  MapPage(this.profileId);
   @override
-  _MapPageState createState() => _MapPageState();
+  _MapPageState createState() => _MapPageState(profileId);
 }
 
 class _MapPageState extends State<MapPage> {
+  String profileId;
+
+  _MapPageState(this.profileId);
+
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   GoogleMapController mapController;
 
   void initState() {
     super.initState();
-    initMarker();
+    setMarkers();
   }
 
-  initMarker() {
+  void setMarkers() async {
+    var snap = await Firestore.instance
+        .collection('insta_posts')
+        .where('ownerId', isEqualTo: profileId)
+        .getDocuments();
+    for (var doc in snap.documents) {
+      ImagePost imagePost = ImagePost.fromDocument(doc);
+      if (imagePost.lat != null){
+        initMarker(imagePost.location, LatLng(imagePost.lat, imagePost.lng));
+      }
+    }
+  }
+
+  initMarker(String placeName, LatLng location) {
     var markerIdVal = Random().nextInt(10000);
     final MarkerId markerId = MarkerId(markerIdVal.toString());
 

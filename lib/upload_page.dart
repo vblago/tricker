@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,6 +29,11 @@ class _Uploader extends State<Uploader> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
 
+  List<Prediction> placesList;
+
+  LatLng selectedLocation;
+  String selectedPlaceName;
+
   bool uploading = false;
 
   @override
@@ -32,8 +41,23 @@ class _Uploader extends State<Uploader> {
     //variables with location assigned as 0.0
     currentLocation['latitude'] = 0.0;
     currentLocation['longitude'] = 0.0;
-    initPlatformState(); //method to call location
+    initPlatformState();
+
+    locationController.addListener(() {
+      generatePlacesList();
+    });
+
     super.initState();
+  }
+
+  void generatePlacesList() async {
+    final places =
+        new GoogleMapsPlaces(apiKey: "AIzaSyCFFQWD7VOnUCk0lIoyayfC3zfV7ICeXOw");
+    PlacesAutocompleteResponse response =
+        await places.autocomplete(locationController.text);
+    setState(() {
+      placesList = response.predictions;
+    });
   }
 
   //method to get Location and save into variables
@@ -80,26 +104,62 @@ class _Uploader extends State<Uploader> {
                   locationController: locationController,
                   loading: uploading,
                 ),
-                Divider(), //scroll view where we will show location to users
-                (address == null)
-                    ? Container()
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                        child: Row(
-                          children: <Widget>[
-                            buildLocationButton(address.featureName),
-                            buildLocationButton(address.subLocality),
-                            buildLocationButton(address.locality),
-                            buildLocationButton(address.subAdminArea),
-                            buildLocationButton(address.adminArea),
-                            buildLocationButton(address.countryName),
-                          ],
+                Divider(),
+                placesList != null
+                    ? Container(
+                        height: 300,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: ListView.separated(
+                            itemBuilder: (BuildContext bxt, int index) {
+                              return Container(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                width: double.maxFinite,
+                                child: CupertinoButton(
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () {
+                                    setCurrentLocation(
+                                        placesList[index].description);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    child: Text(
+                                      placesList[index].description,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (BuildContext bxt, int index) {
+                              return Divider(
+                                height: 1,
+                                color: Colors.grey,
+                              );
+                            },
+                            itemCount: placesList.length,
+                          ),
                         ),
-                      ),
-                (address == null) ? Container() : Divider(),
+                      )
+                    : Container(),
               ],
-            ));
+            ),
+          );
+  }
+
+  Future setCurrentLocation(String locationStr) async {
+    final places =
+        new GoogleMapsPlaces(apiKey: "AIzaSyCFFQWD7VOnUCk0lIoyayfC3zfV7ICeXOw");
+    PlacesSearchResponse response = await places.searchByText(locationStr);
+    selectedLocation = LatLng(response.results[0].geometry.location.lat,
+        response.results[0].geometry.location.lng);
+    selectedPlaceName = locationStr;
+    setState(() {
+      locationController.text = locationStr;
+    });
   }
 
   //method to build buttons with location.
@@ -146,8 +206,10 @@ class _Uploader extends State<Uploader> {
                 child: const Text('Take a photo'),
                 onPressed: () async {
                   Navigator.pop(context);
-                  File imageFile =
-                      await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 1920, maxHeight: 1350);
+                  File imageFile = await ImagePicker.pickImage(
+                      source: ImageSource.camera,
+                      maxWidth: 1920,
+                      maxHeight: 1350);
                   setState(() {
                     file = imageFile;
                   });
@@ -210,7 +272,8 @@ class _Uploader extends State<Uploader> {
       postToFireStore(
           mediaUrl: data,
           description: descriptionController.text,
-          location: locationController.text);
+          location: selectedLocation,
+          locationName: selectedPlaceName);
     }).then((_) {
       setState(() {
         file = null;
@@ -297,12 +360,17 @@ Future<String> uploadImage(var imageFile) async {
 }
 
 void postToFireStore(
-    {String mediaUrl, String location, String description}) async {
+    {String mediaUrl,
+    String locationName,
+    LatLng location,
+    String description}) async {
   var reference = Firestore.instance.collection('insta_posts');
 
   reference.add({
     "username": currentUserModel.username,
-    "location": location,
+    "location": locationName,
+    "lat": location.latitude,
+    "lng": location.longitude,
     "likes": {},
     "mediaUrl": mediaUrl,
     "description": description,
