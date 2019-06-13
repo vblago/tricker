@@ -28,7 +28,7 @@ Future<void> main() async {
     print('[Main] Firestore timestamps in snapshots set');},
     onError: (_) => print('[Main] Error setting timestamps in snapshots')
   );
-  runApp(Fluttergram());
+  runApp(Tricker());
 }
 
 Future<Null> _ensureLoggedIn(BuildContext context) async {
@@ -158,12 +158,13 @@ Future<void> tryCreateUserRecord(BuildContext context) async {
   return null;
 }
 
-class Fluttergram extends StatelessWidget {
+class Tricker extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fluttergram',
+      debugShowCheckedModeBanner: false,
+      title: 'Tricker',
       theme: ThemeData(
           // This is the theme of your application.
           //
@@ -176,7 +177,7 @@ class Fluttergram extends StatelessWidget {
           primarySwatch: Colors.blue,
           buttonColor: Colors.pink,
           primaryIconTheme: IconThemeData(color: Colors.black)),
-      home: HomePage(title: 'Fluttergram'),
+      home: HomePage(title: 'Tricker'),
     );
   }
 }
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               Text(
-                'Fluttergram',
+                'Tricker',
                 style: TextStyle(
                     fontSize: 60.0,
                     fontFamily: "Billabong",

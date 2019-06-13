@@ -100,3 +100,10 @@ class UserSearchItem extends StatelessWidget {
         });
   }
 }
+
+void openSearch(BuildContext context) {
+  Navigator.of(context)
+      .push(MaterialPageRoute<bool>(builder: (BuildContext context) {
+    return SearchPage();
+  }));
+}

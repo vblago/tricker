@@ -1,3 +1,5 @@
+import 'package:Tricker/search_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main.dart';
@@ -167,8 +169,8 @@ class _ProfilePage extends State<ProfilePage>
                   borderRadius: BorderRadius.circular(5.0)),
               alignment: Alignment.center,
               child: Text(text,
-                  style: TextStyle(
-                      color: textColor, fontWeight: FontWeight.bold)),
+                  style:
+                      TextStyle(color: textColor, fontWeight: FontWeight.bold)),
               width: 250.0,
               height: 27.0,
             )),
@@ -319,6 +321,16 @@ class _ProfilePage extends State<ProfilePage>
                   user.username,
                   style: const TextStyle(color: Colors.black),
                 ),
+                actions: <Widget>[
+                  CupertinoButton(
+                    padding: EdgeInsets.only(right: 15),
+                    minSize: 20,
+                    onPressed: () {
+                      openSearch(context);
+                    },
+                    child: Icon(Icons.search, color: Colors.black),
+                  )
+                ],
                 backgroundColor: Colors.white,
               ),
               body: ListView(
