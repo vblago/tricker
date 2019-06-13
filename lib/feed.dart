@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tricker/paument_card/payment_card_page.dart';
 import 'image_post.dart';
 import 'dart:async';
 import 'main.dart';
@@ -42,6 +44,16 @@ class _Feed extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
                 fontFamily: "Billabong", color: Colors.black, fontSize: 35.0)),
         centerTitle: true,
         backgroundColor: Colors.white,
+        actions: <Widget>[
+                  CupertinoButton(
+                    padding: EdgeInsets.only(right: 15),
+                    minSize: 20,
+                    onPressed: () {
+                      openPaymentCard(context);
+                    },
+                    child: Icon(Icons.credit_card, color: Colors.black),
+                  )
+                ],
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
