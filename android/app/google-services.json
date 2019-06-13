@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "625193104773",
+    "firebase_url": "https://tricker-nure.firebaseio.com",
+    "project_id": "tricker-nure",
+    "storage_bucket": "tricker-nure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625193104773:android:3a8df281dbb622e9",
+        "android_client_info": {
+          "package_name": "ltd.vblago.tricker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625193104773-b4j2811jm6qohq3h9tdcpusecleu4c2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ltd.vblago.tricker",
+            "certificate_hash": "56bd6db3675fbb64ad20ddc566b170619ea77f02"
+          }
+        },
+        {
+          "client_id": "625193104773-jls2ebtegme1t4lhdllvg7hnbl4rhh2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd8XauknqdWtgtoorQ9ILqeu6-6wJwlEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625193104773-jls2ebtegme1t4lhdllvg7hnbl4rhh2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
