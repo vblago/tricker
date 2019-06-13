@@ -1,3 +1,4 @@
+import 'package:tricker/map_page.dart';
 import 'package:tricker/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -242,6 +243,12 @@ class _ProfilePage extends State<ProfilePage>
               changeView("feed");
             },
           ),
+          IconButton(
+            icon: Icon(Icons.map, color: isActiveButtonColor("map")),
+            onPressed: () {
+              changeView("map");
+            },
+          ),
         ],
       );
     }
@@ -291,6 +298,11 @@ class _ProfilePage extends State<ProfilePage>
                 children: snapshot.data.map((ImagePost imagePost) {
               return imagePost;
             }).toList());
+          } else if (view == "map"){
+            return Container(
+              height: MediaQuery.of(context).size.height - 370,
+              child: MapPage(),
+            );
           }
         },
       ));

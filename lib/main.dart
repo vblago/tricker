@@ -271,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                     title: Container(height: 0.0),
                     backgroundColor: Colors.white),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.search,
+                    icon: Icon(Icons.message, size: 25,
                         color: (_page == 1) ? Colors.black : Colors.grey),
                     title: Container(height: 0.0),
                     backgroundColor: Colors.white),
