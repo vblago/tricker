@@ -8,6 +8,7 @@ import 'image_post.dart';
 import 'dart:async';
 import 'edit_profile_page.dart';
 import 'models/user.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({this.userId});
@@ -298,7 +299,7 @@ class _ProfilePage extends State<ProfilePage>
                 children: snapshot.data.map((ImagePost imagePost) {
               return imagePost;
             }).toList());
-          } else if (view == "map"){
+          } else if (view == "map") {
             return Container(
               height: MediaQuery.of(context).size.height - 370,
               child: MapPage(profileId),
@@ -401,6 +402,71 @@ class _ProfilePage extends State<ProfilePage>
                     ),
                   ),
                   Divider(),
+                  Container(
+                    height: 60,
+                    padding: EdgeInsets.symmetric(horizontal: 42),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.table_chart,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              'Leaders',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.show_chart,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              'Level up',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.card_giftcard,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              'Daily bonus',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 30,
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: LinearPercentIndicator(
+                        alignment: MainAxisAlignment.center,
+                        width: MediaQuery.of(context).size.width - 50,
+                        lineHeight: 20.0,
+                        percent: 0.8,
+                        center: Text("80 exp / 100 exp", style: TextStyle(color: Colors.white),),
+                        backgroundColor: Colors.grey,
+                        progressColor: Colors.green,
+                    ),
+                  ),
+                  Divider(height: 0.0),
                   buildImageViewButtonBar(),
                   Divider(height: 0.0),
                   buildUserPosts(),

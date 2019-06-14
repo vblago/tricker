@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tricker/chat/chat_screen.dart';
 import 'feed.dart';
 import 'upload_page.dart';
 import 'dart:async';
@@ -204,12 +205,9 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(top: 240.0),
           child: Column(
             children: <Widget>[
-              Text(
-                'Tricker',
-                style: TextStyle(
-                    fontSize: 60.0,
-                    fontFamily: "Billabong",
-                    color: Colors.black),
+              Image.asset(
+                'assets/images/tricker.png',
+                height: 60,
               ),
               Padding(padding: const EdgeInsets.only(bottom: 100.0)),
               GestureDetector(
@@ -245,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                   child: Feed(),
                 ),
-                Container(color: Colors.white, child: SearchPage()),
+                Container(color: Colors.white, child: ChatScreen()),
                 Container(
                   color: Colors.white,
                   child: Uploader(),
@@ -276,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                     title: Container(height: 0.0),
                     backgroundColor: Colors.white),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.add_circle,
+                    icon: Image.asset("assets/images/fish.png",
                         color: (_page == 2) ? Colors.black : Colors.grey),
                     title: Container(height: 0.0),
                     backgroundColor: Colors.white),

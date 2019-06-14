@@ -70,9 +70,43 @@ class _Uploader extends State<Uploader> {
 
   Widget build(BuildContext context) {
     return file == null
-        ? IconButton(
-            icon: Icon(Icons.file_upload),
-            onPressed: () => {_selectImage(context)})
+        ? Center(
+            child: Container(
+              child: SimpleDialog(
+                title: const Text('Create a Post'),
+                children: <Widget>[
+                  SimpleDialogOption(
+                      child: const Text('Take a photo'),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        File imageFile = await ImagePicker.pickImage(
+                            source: ImageSource.camera,
+                            maxWidth: 1920,
+                            maxHeight: 1350);
+                        setState(() {
+                          file = imageFile;
+                        });
+                      }),
+                  SimpleDialogOption(
+                      child: const Text('Choose from Gallery'),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        File imageFile = await ImagePicker.pickImage(
+                            source: ImageSource.gallery);
+                        setState(() {
+                          file = imageFile;
+                        });
+                      }),
+                  SimpleDialogOption(
+                    child: const Text("Cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+            ),
+          )
         : Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
@@ -200,6 +234,7 @@ class _Uploader extends State<Uploader> {
 
       builder: (BuildContext context) {
         return SimpleDialog(
+          elevation: 0,
           title: const Text('Create a Post'),
           children: <Widget>[
             SimpleDialogOption(

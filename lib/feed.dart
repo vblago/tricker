@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tricker/insta_posts.dart';
 import 'package:tricker/paument_card/payment_card_page.dart';
 import 'image_post.dart';
 import 'dart:async';
@@ -39,25 +40,38 @@ class _Feed extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tricker',
-            style: const TextStyle(
-                fontFamily: "Billabong", color: Colors.black, fontSize: 35.0)),
+        title: Image.asset(
+          'assets/images/tricker.png',
+          height: 25,
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[
-                  CupertinoButton(
-                    padding: EdgeInsets.only(right: 15),
-                    minSize: 20,
-                    onPressed: () {
-                      openPaymentCard(context);
-                    },
-                    child: Icon(Icons.credit_card, color: Colors.black),
-                  )
-                ],
+          CupertinoButton(
+            padding: EdgeInsets.only(right: 15),
+            minSize: 20,
+            onPressed: () {
+              openPaymentCard(context);
+            },
+            child: Icon(Icons.credit_card, color: Colors.black),
+          )
+        ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: buildFeed(),
+      body: Container(
+        height: double.maxFinite,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Container(
+              height: 120,
+              child: InstaStories(),
+            ),
+            RefreshIndicator(
+              onRefresh: _refresh,
+              child: buildFeed(),
+            ),
+          ],
+        ),
       ),
     );
   }
